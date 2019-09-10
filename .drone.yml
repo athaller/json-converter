@@ -7,14 +7,12 @@ steps:
     image: alpine
     commands:
       - "echo sonar.branch.name=${DRONE_COMMIT_BRANCH} >> sonar-project.properties"
-      - "echo sonar.exclusions=vendor/** >> sonar-project.properties"
-      - "echo sonar.php.coverage.reportPaths=_reports/logs/clover.xml >> sonar-project.properties"
-      - "echo sonar.php.tests.reportPath=_reports/logs/phpunit.xml >> sonar-project.properties"
 
   - name: Run PHP Unit
     image: athaller/phpunit
     detach: false
     commands:
+      - composer install
       - ./vendor/bin/phpunit
 
   - name: code-analysis
